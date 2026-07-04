@@ -1,7 +1,7 @@
 import re
 from collections import Counter
 from pathlib import Path
-from docx import Document
+
 
 file_path = Path("News Article for Python Assessment.txt")
 
@@ -10,12 +10,6 @@ try:
 except FileNotFoundError:
     print(f"Error: The file '{file_path}' does not exist.")
     
-
-# Extract text from the txt. file
-text = ""
-
-#for paragraph in doc_reader.paragraphs:
-    #text += paragraph.text + "\n"
 
 # Counting the number of times a specific word is used
 
@@ -83,11 +77,11 @@ def count_paragraphs(text):
 
     # Count groups of one or more blank lines
     blank_lines = re.findall("\n\n", text)
-    print(len(blank_lines))
-    for i, match in enumerate(blank_lines, 1):
-        print(f"Blank line group {i}: '{repr(match)}'")
+    #print(len(blank_lines))
+    #for i, match in enumerate(blank_lines, 1):
+        #print(f"Blank line group {i}: '{repr(match)}'")
 
-   # return len(blank_lines)
+    return len(blank_lines)
     
 
 # Counting the number of sentences in the text.
@@ -102,9 +96,21 @@ def count_sentences(text):
     abbreviations = ["Inc.", "Dr."]
 
     for abbr in abbreviations:
-        text = text.replace(abbr, abbr.replace(".", ""))
+        text = text.replace(abbr, abbr.replace(".", "<DOT>"))
+    
+    def protect_quotes(match):
+        quoted = match.group(0)
+        return quoted.replace(".", "<DOT>")
+
+    text = re.sub(r'“[^”]*”|"[^"]*"', protect_quotes, text)
+    
     sentences = re.split(r'(?<=[.!?])\s+', text)
-    return len([s for s in sentences if s.strip()])  # Count only non-empty sentences
+    sentences = [s for s in sentences if s.strip()]
+
+    
+    return len(sentences)
+    
+    
 
 # Call the functions and print the results
 specific_word_count = count_specific_word(text, search_word)
