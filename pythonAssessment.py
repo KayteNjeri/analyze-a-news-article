@@ -2,7 +2,6 @@ import re
 from collections import Counter
 from pathlib import Path
 
-
 file_path = Path("News Article for Python Assessment.txt")
 
 try:
@@ -11,25 +10,33 @@ except FileNotFoundError:
     print(f"Error: The file '{file_path}' does not exist.")
     
 
-# Counting the number of times a specific word is used
+# 1. Counting the number of times a specific word is used
 
 def count_specific_word(text, search_word):
     """
     Counts the number of occurences of the specified search word and return the count as integer.
     """
+
+    # Edge Case
     if not text.strip() or not search_word.strip():
         return 0
 
+    # Convert the text to lowercase and use regex to find whole words only
     words = re.findall(r"\b\w+\b", text.lower())
     return words.count(search_word.lower())
 
+# Input from the user for the word to search
 search_word = input("Enter the word you want to search for: ")
+
+while not search_word: #if the user enters an empty string, prompt them again
+    search_word = input("Please enter the word you want to search for: ")
 
 specific_word_count = count_specific_word(text, search_word)
 
+# Display the result
 print(f"The word '{search_word}' appears {specific_word_count} times in the News Article.")
 
-# Identifying the most common word
+# 2. Identifying the most common word
 
 def identify_most_common_word(text):
     """
@@ -44,13 +51,16 @@ def identify_most_common_word(text):
     most_common_word, count = word_counts.most_common(1)[0]
     return most_common_word
 
-# Calculating the average length of words
+# 3. Calculating the average length of words
 
 def calculate_average_word_length(text):
     """
     Calculates the average length of words in the article and returns the average word length as a float.
     """
+    # Extract words only; ignore special characters
     words = re.findall(r"\b\w+\b", text)
+
+    #Edge Case
     if not words:
         return 0
 
@@ -58,61 +68,57 @@ def calculate_average_word_length(text):
     average_length = total_length / len(words)
     return average_length
 
-# Counting the number of paragraphs
+# 4. Counting the number of paragraphs
 
 def count_paragraphs(text):
     """
     Counts the number of paragraphs in the article and returns the number of paragraphs as an integer.
     """
 
-    #count = 0
-   # for para in doc_reader.paragraphs:
-      #  if para.text.strip() == "":
-        #    count += 1
-   # return count
+    # Edge Case
     if not text.strip():
         return 1
 
-    text = text.strip()
-
-    # Count groups of one or more blank lines
-    blank_lines = re.findall("\n\n", text)
-    #print(len(blank_lines))
-    #for i, match in enumerate(blank_lines, 1):
-        #print(f"Blank line group {i}: '{repr(match)}'")
-
-    return len(blank_lines)
+    # Count blank lines in the text
+    blank_lines = len(re.findall("\n\n", text))
+    
+    return blank_lines + 1 #the document has n blank lines, hence the number of paragraphs is n+1
     
 
-# Counting the number of sentences in the text.
+# 5. Counting the number of sentences in the text.
 
 def count_sentences(text):
     """
     Counts the number of sentences in the article and returns the number of sentences as an integer.
     """
+
+    # Edge case
     if not text.strip():
         return 1
 
+    # Prevent abbreviations from being treated as sentence endings
     abbreviations = ["Inc.", "Dr."]
 
     for abbr in abbreviations:
         text = text.replace(abbr, abbr.replace(".", "<DOT>"))
     
+    # Replace periods inside quoted text
     def protect_quotes(match):
         quoted = match.group(0)
         return quoted.replace(".", "<DOT>")
 
     text = re.sub(r'“[^”]*”|"[^"]*"', protect_quotes, text)
     
+    # Count sentences by splitting punctuation marks.
     sentences = re.split(r'(?<=[.!?])\s+', text)
     sentences = [s for s in sentences if s.strip()]
 
     
     return len(sentences)
-    
-    
+      
 
 # Call the functions and print the results
+
 specific_word_count = count_specific_word(text, search_word)
 most_common_word = identify_most_common_word(text)
 average_word_length = calculate_average_word_length(text)
