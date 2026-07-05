@@ -24,18 +24,7 @@ def count_specific_word(text, search_word):
     # Convert the text to lowercase and use regex to find whole words only
     words = re.findall(r"\b\w+\b", text.lower())
     return words.count(search_word.lower())
-
-#if __name__ == "__main__": 
-# Input from the user for the word to search
-    #search_word = input("Enter the word you want to search for: ")
-
-    #while not search_word: #if the user enters an empty string, prompt them again
-        #search_word = input("Please enter the word you want to search for: ")
         
-    specific_word_count = count_specific_word(text, search_word)
-
-# Display the result
-#print(f"The word '{search_word}' appears {specific_word_count} times in the News Article.")
 
 # 2. Identifying the most common word
 
@@ -113,26 +102,30 @@ def count_sentences(text):
     # Count sentences by splitting punctuation marks.
     sentences = re.split(r'(?<=[.!?])\s+', text)
     sentences = [s for s in sentences if s.strip()]
-
     
     return len(sentences)
+
+
+# Run the program
       
 if __name__ == "__main__": 
+    
 #Input from the user for the word to search
     search_word = input("Enter the word you want to search for: ")
 
     while not search_word: #if the user enters an empty string, prompt them again
         search_word = input("Please enter the word you want to search for: ")
 
-# Call the functions and print the results
+# Call the functions
 
-#specific_word_count = count_specific_word(text, search_word)
+    specific_word_count = count_specific_word(text, search_word)
     most_common_word = identify_most_common_word(text)
     average_word_length = calculate_average_word_length(text)
     paragraph_count = count_paragraphs(text)
     sentence_count = count_sentences(text)
 
 # Display the results
+    print(f"The word '{search_word}' appears {specific_word_count} times in the News Article.")
     print(f"The count of '{search_word}': {specific_word_count}")
 
     if most_common_word is None:
