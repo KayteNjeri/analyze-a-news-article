@@ -25,16 +25,17 @@ def count_specific_word(text, search_word):
     words = re.findall(r"\b\w+\b", text.lower())
     return words.count(search_word.lower())
 
+#if __name__ == "__main__": 
 # Input from the user for the word to search
-search_word = input("Enter the word you want to search for: ")
+    #search_word = input("Enter the word you want to search for: ")
 
-while not search_word: #if the user enters an empty string, prompt them again
-    search_word = input("Please enter the word you want to search for: ")
-
-specific_word_count = count_specific_word(text, search_word)
+    #while not search_word: #if the user enters an empty string, prompt them again
+        #search_word = input("Please enter the word you want to search for: ")
+        
+    specific_word_count = count_specific_word(text, search_word)
 
 # Display the result
-print(f"The word '{search_word}' appears {specific_word_count} times in the News Article.")
+#print(f"The word '{search_word}' appears {specific_word_count} times in the News Article.")
 
 # 2. Identifying the most common word
 
@@ -116,23 +117,29 @@ def count_sentences(text):
     
     return len(sentences)
       
+if __name__ == "__main__": 
+#Input from the user for the word to search
+    search_word = input("Enter the word you want to search for: ")
+
+    while not search_word: #if the user enters an empty string, prompt them again
+        search_word = input("Please enter the word you want to search for: ")
 
 # Call the functions and print the results
 
-specific_word_count = count_specific_word(text, search_word)
-most_common_word = identify_most_common_word(text)
-average_word_length = calculate_average_word_length(text)
-paragraph_count = count_paragraphs(text)
-sentence_count = count_sentences(text)
+#specific_word_count = count_specific_word(text, search_word)
+    most_common_word = identify_most_common_word(text)
+    average_word_length = calculate_average_word_length(text)
+    paragraph_count = count_paragraphs(text)
+    sentence_count = count_sentences(text)
 
 # Display the results
-print(f"The count of '{search_word}': {specific_word_count}")
+    print(f"The count of '{search_word}': {specific_word_count}")
 
-if most_common_word is None:
-    print("Most common word: None")
-else:
-    print(f"Most common word in the article is: '{most_common_word}'")
+    if most_common_word is None:
+        print("Most common word: None")
+    else:
+        print(f"Most common word in the article is: '{most_common_word}'")
 
-print(f"Average word length in the article is: {average_word_length:.2f}")
-print(f"Number of paragraphs in the article: {paragraph_count}")
-print(f"Number of sentences in the article: {sentence_count}")
+    print(f"Average word length in the article is: {average_word_length:.2f}")
+    print(f"Number of paragraphs in the article: {paragraph_count}")
+    print(f"Number of sentences in the article: {sentence_count}")
